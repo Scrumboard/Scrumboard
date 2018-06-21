@@ -1,0 +1,74 @@
+version: '3.1'
+
+services:
+
+  web:
+    image: nginx
+    # deploy:
+    #   replicas: 2
+    volumes:
+      - ./conf/web.conf:/etc/nginx/conf.d/default.conf
+      - ../scrumboard-web/dist:/usr/share/nginx/html
+  
+  api:
+    image: api
+    build: ../scrumboard-api/
+    depends_on:
+      - data
+    volumes:
+      - ./conf/api.conf:/etc/apache2/sites-available/000-default.conf
+      - ../scrumboard-api:/var/www/html
+  
+  data:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: scrumboard
+      MYSQL_USER: scrumboard
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+     - db_root_password
+     - db_password
+    volumes:
+      - persistent:/var/lib/mysql
+  
+  # pma:
+  #   image: phpmyadmin/phpmyadmin
+  #   depends_on:
+  #     - data
+  #   environment:
+  #     PMA_HOST: data
+  #     PMA_USER: root
+  #     PMA_PASSWORD: password123
+  
+  # jenkins:
+  #   image: jenkins/jenkins
+  #   ports:
+  #     - 8080:8080
+  #     - 50000:50000
+  
+  # visualizer:
+  #   image: dockersamples/visualizer
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports:
+  #     - 8080:8080
+  
+  proxy:
+    image: nginx
+    depends_on:
+      - web
+      - api
+    volumes:
+      - ./conf/proxy.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+
+secrets:
+   db_password:
+     file: ./secret/db_password.txt
+   db_root_password:
+     file: ./secret/db_root_password.txt
+
+volumes:
+  persistent:
