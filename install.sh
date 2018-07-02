@@ -1,12 +1,7 @@
 
-cd docker
-docker-compose pull
-docker-compose build
-cd ../
 
 cd scrumboard-web
 npm install
-npm run build
 cd ../
 
 cd scrumboard-api
@@ -18,4 +13,6 @@ sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=password123/' .env
 composer install
 php artisan key:generate
 cd ../
+
+./update.sh
 
