@@ -21,5 +21,6 @@ export default {
   position:absolute;
   left:0px;
   right:0px;
+  font-family: 'Hind', sans-serif;
 }
 </style>

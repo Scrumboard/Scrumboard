@@ -5,14 +5,14 @@
     <a class="navbar-brand">Scrumboard</a>
 
     <ul class="navbar-nav ml-auto d-flex flex-row">
-      <li class="nav-item mr-4">
+      <li class="nav-item mr-4 pl-2 pr-2">
         <a class="nav-link" href="#">Login</a>
       </li>
-      <li class="nav-item mr-4">
+      <li class="nav-item mr-4 pl-2 pr-2">
         <a class="nav-link" href="#">Register</a>
       </li>
-      <li class="nav-item active mr-4">
-        <a class="nav-link" href="#">Home</a>
+      <li class="nav-item active mr-4 pl-2 pr-2">
+        <a class="nav-link" href="/">Home</a>
       </li>
     </ul>
 
@@ -45,13 +45,26 @@ export default {
 <style lang="scss" scoped>
 @import "./src/styles/colors.scss";
 
-.nav-item {
+a, a:visited, a:hover, a:active {
+  color: inherit;
+}
+
+.nav-link {
     font-size:18px;
+    color: white!important;
+}
+
+.nav-link:hover {
+    color:$blue!important;
 }
 
 .navbar-brand {
     font-size:24px;
     color:white!important;
+}
+
+.navbar {
+    font-family: 'Abel', sans-serif;
 }
 
 </style>
