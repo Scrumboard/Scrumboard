@@ -10,15 +10,16 @@ export default {
 }
 </script>
 
-// <style lang="scss">
+<style lang="scss">
 
-// // #app {
-// //   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-// //   -webkit-font-smoothing: antialiased;
-// //   -moz-osx-font-smoothing: grayscale;
-// //   text-align: center;
-// //   color: #2c3e50;
-// //   margin-top: 60px;
-// // }
+@import "./src/styles/colors.scss";
 
-// </style>
+#app {
+  background: linear-gradient(to top right, $darkpurple 0%, $darkblue 100%);
+  height:100%;
+  width:100%;
+  position:absolute;
+  left:0px;
+  right:0px;
+}
+</style>

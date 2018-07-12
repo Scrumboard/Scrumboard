@@ -1,0 +1,57 @@
+<template>
+  <div class="pos-f-t">
+
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand">Scrumboard</a>
+
+    <ul class="navbar-nav ml-auto d-flex flex-row">
+      <li class="nav-item mr-4">
+        <a class="nav-link" href="#">Login</a>
+      </li>
+      <li class="nav-item mr-4">
+        <a class="nav-link" href="#">Register</a>
+      </li>
+      <li class="nav-item active mr-4">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+    </ul>
+
+    <!-- <button class="navbar-toggler align-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+  </nav>
+
+    <div class="collapse" id="navbarToggleExternalContent">
+    <div class="bg-dark p-2">
+      <p class="text-white">Collapsed content</p>
+    </div>
+  </div>
+
+</div>
+</template>
+
+<script>
+export default {
+  name: 'Menu',
+  data () {
+    return {
+      msg: 'Hello menu!'
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import "./src/styles/colors.scss";
+
+.nav-item {
+    font-size:18px;
+}
+
+.navbar-brand {
+    font-size:24px;
+    color:white!important;
+}
+
+</style>

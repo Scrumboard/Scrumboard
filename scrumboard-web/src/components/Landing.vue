@@ -1,14 +1,20 @@
 <template>
-  <h1> {{test}} </h1>
+  <div>
+    <menubar></menubar>
+  </div>
 </template>
 
 <script>
+import Menu from './shared/menu/Menu'
+
 export default {
   name: 'Landing',
+  components: {
+    'menubar': Menu
+  },
   data () {
     return {
-      msg: 'Welcome to the landing!',
-      test: 'hello world'
+      test: 'hello worldsss'
     }
   }
 }
@@ -18,7 +24,4 @@ export default {
 <style lang="scss" scoped>
 @import "./src/styles/colors.scss";
 
-a {
-  color: $lightgreen;
-}
 </style>
