@@ -8,7 +8,7 @@
     <!-- The container for all the information on the landings page -->
     <!-- This makes use of the grid system. -->
     <div class="row body-content">
-    <div class="card welcome text-center mx-auto p-3 shadow rounded col-5">
+    <div class="card welcome text-center mx-auto p-3 shadow rounded col-lg-6 col-10 ">
       <div class="card-body">
         <h1 class="card-title">Welcome to Scrumboard!</h1>
         <p class="card-text">A free open source scrumboard website!</p>
@@ -21,7 +21,7 @@
   <div class="info">
 
     <div class="row">
-      <div class="card text-center mx-auto p-3 shadow rounded col-2">
+      <div class="card text-center mx-auto p-3 shadow rounded col-10 col-lg-3 m-3">
         <div class="card-body">
           <h1 class="card-title"><i class="fab fa-creative-commons-nc-eu"></i></h1>
           <p class="card-text">All services on the website are entirely free!</p>
@@ -29,16 +29,16 @@
         </div>
       </div>
 
-      <div class="card text-center mx-auto p-3 shadow rounded col-2">
+          <div class="card text-center mx-auto p-3 shadow rounded col-10 col-lg-3">
         <div class="card-body">
           <h1 class="card-title"><i class="fab fa-github"></i></h1>
-          <p class="card-text">All the code is on github, don't be afraid to help!</p>
+          <p class="card-text">All the code is on github, don't be afraid to help!<p>
           <a href="https://github.com/Scrumboard/Scrumboard" target="_blank" class="btn btn-black">Show me the code!</a>
           <p class="card-text"></p>
         </div>
       </div>
 
-      <div class="card text-center mx-auto p-3 shadow rounded col-2">
+      <div class="card text-center mx-auto p-3 shadow rounded col-10 col-lg-3 m-3">
         <div class="card-body">
           <h1 class="card-title"><i class="fas fa-database"></i></h1>
           <p class="card-text">We're transparent with all our data.</p>
@@ -102,10 +102,11 @@ export default {
 }
 
 .card {
-    -ms-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  -o-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+
+.info-card {
+  margin:1rem;
 }
 
 .body-content {
@@ -119,7 +120,7 @@ export default {
 }
 
 .info {
-  padding:3rem;
+  padding-top:3rem;
   position:absolute;
 }
 </style>

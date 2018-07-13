@@ -16,9 +16,10 @@
       </li>
     </ul>
 
-    <!-- <button class="navbar-toggler align-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- The if statement should be connected to logged in or not. -->
+    <button v-if="false" class="navbar-toggler align-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button> -->
+    </button>
   </nav>
 
     <div class="collapse" id="navbarToggleExternalContent">
@@ -44,6 +45,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "./src/styles/colors.scss";
+
+button:focus {
+  outline:none;
+}
 
 a, a:visited, a:hover, a:active {
   color: inherit;

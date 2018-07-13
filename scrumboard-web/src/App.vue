@@ -14,10 +14,11 @@ export default {
 
 @import "./src/styles/colors.scss";
 
-#app {
+html,body {
   background: linear-gradient(to top right, $darkpurple 0%, $darkblue 100%);
   height:100%;
   width:100%;
+  background-attachment: fixed;
   position:absolute;
   left:0px;
   right:0px;
