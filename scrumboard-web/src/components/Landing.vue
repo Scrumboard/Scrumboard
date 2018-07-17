@@ -29,7 +29,7 @@
         </div>
       </div>
 
-          <div class="card text-center mx-auto p-3 shadow rounded col-10 col-lg-3">
+          <div class="card text-center mx-auto p-3 shadow rounded col-10 col-lg-3 m-3">
         <div class="card-body">
           <h1 class="card-title"><i class="fab fa-github"></i></h1>
           <p class="card-text">All the code is on github, don't be afraid to help!<p>
@@ -55,12 +55,12 @@
 </template>
 
 <script>
-import Menu from './shared/menu/Menu'
+import TheHeader from './shared/TheHeader'
 
 export default {
   name: 'Landing',
   components: {
-    menubar: Menu
+    menubar: TheHeader
   },
   data () {
     return {
@@ -71,7 +71,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import "./src/styles/colors.scss";
+@import "./src/assets/colors.scss";
 
 .github_link {
   font-weight:400;
@@ -121,6 +121,7 @@ export default {
 
 .info {
   padding-top:3rem;
+  padding-bottom:3rem;
   position:absolute;
 }
 </style>
