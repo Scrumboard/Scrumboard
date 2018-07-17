@@ -10,8 +10,8 @@
             <div class="card-body">
               <h5 class="card-title text-center">Login</h5>
 
-              <div class="alert alert-danger" v-if="message">
-                {{ message }}
+              <div class="alert alert-danger" v-if="alert.message">
+                {{ alert.message }}
                 <button type="button" class="close" @click="alertHide()">
                   &times;
                 </button>
@@ -76,15 +76,17 @@ export default {
         password: '',
         remember: false,
       },
-      message: '',
+      alert: {
+        message: '',
+      }
     }
   },
   methods: {
     submit() {
-      this.message = 'Oops! Nog geen implementatie beschikbaar'
+      this.alert.message = 'Oops! Nog geen implementatie beschikbaar'
     },
     alertHide() {
-      this.message = ''
+      this.alert.message = ''
     }
   },
   components: {
