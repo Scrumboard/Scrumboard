@@ -10,7 +10,14 @@
             <div class="card-body">
               <h5 class="card-title text-center">Login</h5>
 
-              <form>
+              <div class="alert alert-danger" v-if="message">
+                {{ message }}
+                <button type="button" class="close" @click="alertHide()">
+                  &times;
+                </button>
+              </div>
+
+              <form @submit.prevent="submit()">
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -62,6 +69,19 @@
 import TheHeader from './shared/TheHeader'
 
 export default {
+  data() {
+    return {
+      message: ''
+    }
+  },
+  methods: {
+    submit() {
+      this.message = 'Oops! Nog geen implementatie beschikbaar'
+    },
+    alertHide() {
+      this.message = ''
+    }
+  },
   components: {
     TheHeader
   }
