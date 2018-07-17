@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Menu></Menu>
+    <TheHeader/>
 
     <div class="container">
       <div class="row">
@@ -59,11 +59,11 @@
 </template>
 
 <script>
-import Menu from './shared/menu/Menu'
+import TheHeader from './shared/TheHeader'
 
 export default {
   components: {
-    Menu
+    TheHeader
   }
 }
 </script>

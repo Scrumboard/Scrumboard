@@ -11,8 +11,8 @@
       <li class="nav-item mr-4 pl-2 pr-2">
         <a class="nav-link" href="#">Register</a>
       </li>
-      <li class="nav-item active mr-4 pl-2 pr-2">
-        <a class="nav-link" href="/">Home</a>
+      <li class="nav-item mr-4 pl-2 pr-2">
+        <router-link :to="{ name: 'Landing' }" class="nav-link">Home</router-link>
       </li>
     </ul>
 
@@ -26,13 +26,13 @@
     <div class="bg-dark p-2">
     <ul class="navbar-nav ml-auto d-flex flex-sm-row">
       <li class="nav-item mr-4 pl-2 pr-2">
-        <a class="nav-link" href="#">Login</a>
+        <router-link :to="{ name: 'login' }" class="nav-link">Login</router-link>
       </li>
       <li class="nav-item mr-4 pl-2 pr-2">
         <a class="nav-link" href="#">Register</a>
       </li>
-      <li class="nav-item active mr-4 pl-2 pr-2">
-        <a class="nav-link" href="/">Home</a>
+      <li class="nav-item mr-4 pl-2 pr-2">
+        <router-link :to="{ name: 'Landing' }" class="nav-link">Home</router-link>
       </li>
     </ul>
     </div>
