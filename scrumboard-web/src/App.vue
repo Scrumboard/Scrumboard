@@ -12,10 +12,10 @@ export default {
 
 <style lang="scss">
 
-@import "./src/styles/colors.scss";
+@import "./src/assets/colors.scss";
 
 html,body {
-  background: linear-gradient(to top right, $darkpurple 0%, $darkblue 100%);
+  background:$lightblue!important;
   height:100%;
   width:100%;
   background-attachment: fixed;
