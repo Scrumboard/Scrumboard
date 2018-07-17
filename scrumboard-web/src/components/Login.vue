@@ -8,7 +8,7 @@
 
           <div class="card mt-3">
             <div class="card-body">
-              <h5 class="card-title text-center">Inloggen</h5>
+              <h5 class="card-title text-center">Login</h5>
 
               <form>
                 <div class="form-group">
@@ -18,7 +18,7 @@
                         <i class="fas fa-user"></i>
                       </span>
                     </div>
-                    <input type="email" placeholder="E-mailadres" class="form-control">
+                    <input type="email" placeholder="Email" class="form-control">
                   </div>
                 </div>
 
@@ -29,7 +29,7 @@
                         <i class="fas fa-unlock"></i>
                       </span>
                     </div>
-                    <input type="password" placeholder="Wachtwoord" class="form-control">
+                    <input type="password" placeholder="Password" class="form-control">
                   </div>
                 </div>
 
@@ -37,18 +37,18 @@
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="remember">
                     <label for="remember" class="form-check-label">
-                      Aangemeld blijven
+                      Remember me
                     </label>
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
               </form>
 
             </div>
 
             <div class="card-footer text-center text-muted">
-              <a>Wachtwoord vergeten?</a>
+              <a>Forgot password?</a>
             </div>
 
           </div>
