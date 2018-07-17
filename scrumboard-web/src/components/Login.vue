@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import TheHeader from './shared/TheHeader'
 
 export default {
@@ -74,16 +75,24 @@ export default {
       form: {
         email: '',
         password: '',
-        remember: false,
+        remember: false
       },
       alert: {
-        message: '',
+        message: ''
       }
     }
   },
   methods: {
     submit() {
-      this.alert.message = 'Oops! Nog geen implementatie beschikbaar'
+      this.alert.message = 'Loading...'
+
+      axios.post('http://localhost/api/true', { body: this.form })
+        .then(response => {
+          this.alert.message = 'Oops! Login not implemented'
+        })
+        .catch(e => {
+          this.alert.message = 'Oops! Something went wrong'
+        })
     },
     alertHide() {
       this.alert.message = ''
