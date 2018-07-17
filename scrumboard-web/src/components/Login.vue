@@ -25,7 +25,7 @@
                         <i class="fas fa-user"></i>
                       </span>
                     </div>
-                    <input type="email" placeholder="Email" class="form-control">
+                    <input type="email" v-model="form.email" placeholder="Email" class="form-control">
                   </div>
                 </div>
 
@@ -36,13 +36,13 @@
                         <i class="fas fa-unlock"></i>
                       </span>
                     </div>
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input type="password" v-model="form.password" placeholder="Password" class="form-control">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="remember">
+                    <input type="checkbox" v-model="form.remember" class="form-check-input" id="remember">
                     <label for="remember" class="form-check-label">
                       Remember me
                     </label>
@@ -71,7 +71,12 @@ import TheHeader from './shared/TheHeader'
 export default {
   data() {
     return {
-      message: ''
+      form: {
+        email: '',
+        password: '',
+        remember: false,
+      },
+      message: '',
     }
   },
   methods: {
