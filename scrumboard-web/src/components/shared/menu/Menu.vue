@@ -6,7 +6,7 @@
 
     <ul class="navbar-nav ml-auto d-flex flex-row">
       <li class="nav-item mr-4 pl-2 pr-2">
-        <a class="nav-link" href="#">Login</a>
+        <router-link :to="{ name: 'login' }" class="nav-link">Login</router-link>
       </li>
       <li class="nav-item mr-4 pl-2 pr-2">
         <a class="nav-link" href="#">Register</a>

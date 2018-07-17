@@ -32,14 +32,14 @@ services:
     volumes:
       - persistent:/var/lib/mysql
   
-  # pma:
-  #   image: phpmyadmin/phpmyadmin
-  #   depends_on:
-  #     - data
-  #   environment:
-  #     PMA_HOST: data
-  #     PMA_USER: root
-  #     PMA_PASSWORD: password123
+  pma:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - data
+    environment:
+      PMA_HOST: data
+      PMA_USER: root
+      PMA_PASSWORD: password123
   
   # jenkins:
   #   image: jenkins/jenkins
