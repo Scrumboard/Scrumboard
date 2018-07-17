@@ -66,11 +66,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
 import TheHeader from './shared/TheHeader'
 
 export default {
-  data() {
+  data () {
     return {
       form: {
         email: '',
@@ -83,20 +83,22 @@ export default {
     }
   },
   methods: {
-    submit() {
+    alertHide () {
+      this.alert.message = ''
+    },
+    submit () {
       this.alert.message = 'Loading...'
-
-      axios.post('http://localhost/api/true', { body: this.form })
+      this.login(this.form)
         .then(response => {
-          this.alert.message = 'Oops! Login not implemented'
+          this.alert.message = 'yay'
         })
         .catch(e => {
-          this.alert.message = 'Oops! Something went wrong'
+          this.alert.message = 'noes'
         })
     },
-    alertHide() {
-      this.alert.message = ''
-    }
+    ...mapActions([
+      'login'
+    ])
   },
   components: {
     TheHeader
