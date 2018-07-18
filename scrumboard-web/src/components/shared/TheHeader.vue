@@ -8,20 +8,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="navbar-nav ml-auto text-center">
-        <li class="nav-item px-3">
-          <router-link v-if="!user" :to="{ name: 'login' }" class="nav-link">Login</router-link>
+        <li v-if="!user" class="nav-item px-3">
+          <router-link :to="{ name: 'login' }" class="nav-link">Login</router-link>
         </li>
-        <li class="nav-item px-3">
-          <router-link v-if="!user" :to="{ name: 'register' }" class="nav-link">Register</router-link>
+        <li v-if="!user" class="nav-item px-3">
+          <router-link :to="{ name: 'register' }" class="nav-link">Register</router-link>
         </li>
         <li class="nav-item px-3">
           <router-link :to="{ name: 'Landing' }" class="nav-link">Home</router-link>
         </li>
-        <li class="nav-item px-3">
-          <router-link v-if="user" :to="{ name: 'test' }" class="nav-link">Test</router-link>
+        <li v-if="user" class="nav-item px-3">
+          <router-link :to="{ name: 'test' }" class="nav-link">Test</router-link>
         </li>
-        <li class="nav-item px-3">
-          <router-link v-if="user" :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
+        <li v-if="user" class="nav-item px-3">
+          <router-link :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
         </li>
       </ul>
     </div>
