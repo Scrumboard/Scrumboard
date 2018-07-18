@@ -56,6 +56,9 @@ const actions = {
       .catch(e => {
         commit(types.AUTH_UPDATE_LOADING, false)
       })
+  },
+  hideError ({ commit }) {
+    commit(types.AUTH_UPDATE_ERROR, '')
   }
 }
 

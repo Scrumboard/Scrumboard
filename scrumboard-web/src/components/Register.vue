@@ -21,6 +21,9 @@
               </div>
               <div class="alert alert-danger" v-else-if="error">
                 {{ error }}
+                <button type="button" class="close" @click="hideError()">
+                  <span>&times;</span>
+                </button>
               </div>
 
               <form @submit.prevent="register(form)">
@@ -74,6 +77,9 @@ import { mapActions, mapState } from 'vuex'
 import TheHeader from './shared/TheHeader'
 
 export default {
+  beforeDestroy () {
+    this.hideError()
+  },
   data () {
     return {
       form: {
@@ -91,7 +97,8 @@ export default {
   }),
   methods: {
     ...mapActions('auth', [
-      'register'
+      'register',
+      'hideError'
     ])
   },
   components: {
