@@ -42,8 +42,19 @@ const actions = {
   loadUser ({ commit, state }) {
     return axios.get('http://localhost/api/auth/user', {headers: {'Authorization': 'Bearer ' + state.token}})
       .then(response => {
-        console.log(response)
         commit(types.AUTH_UPDATE_USER, response.data)
+      })
+  },
+  logout ({ commit, state }) {
+    commit(types.AUTH_UPDATE_LOADING, true)
+    return axios.get('http://localhost/api/auth/logout', {headers: {'Authorization': 'Bearer ' + state.token}})
+      .then(response => {
+        commit(types.AUTH_UPDATE_TOKEN, '')
+        commit(types.AUTH_UPDATE_USER, null)
+        commit(types.AUTH_UPDATE_LOADING, false)
+      })
+      .catch(e => {
+        commit(types.AUTH_UPDATE_LOADING, false)
       })
   }
 }

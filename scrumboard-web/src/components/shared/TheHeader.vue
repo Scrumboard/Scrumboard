@@ -17,6 +17,9 @@
         <li class="nav-item px-3">
           <router-link :to="{ name: 'Landing' }" class="nav-link">Home</router-link>
         </li>
+        <li class="nav-item px-3">
+          <router-link :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
+        </li>
       </ul>
     </div>
   </nav>
