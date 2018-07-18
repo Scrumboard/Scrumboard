@@ -10,12 +10,27 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // $user->name = 'Erwin Olie';
-        // $user->email = 'erwinolie@gmail.com';
-        // $user->password = bcrypt('wachtwoord123');
-        // $user->save();
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'password' => 'required|confirmed',
+        ]);
 
-        // return $user;
+        $details = [
+            'name' => 'hello world',
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ];
+
+        $user = new User($details);
+        $user->save();
+
+        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult->token->save();
+
+        return response()->json([
+            'token' => $tokenResult->accessToken,
+            'type' => 'Bearer'
+        ]);
     }
 
     public function login(Request $request)

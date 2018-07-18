@@ -13,6 +13,19 @@ const getters = {
 }
 
 const actions = {
+  register ({ commit, dispatch }, details) {
+    commit(types.AUTH_UPDATE_LOADING, true)
+    return axios.post('http://localhost/api/auth/register', details)
+      .then(response => {
+        commit(types.AUTH_UPDATE_TOKEN, response.data.token)
+        dispatch('loadUser')
+        commit(types.AUTH_UPDATE_LOADING, false)
+      })
+      .catch(e => {
+        commit(types.AUTH_UPDATE_ERROR, 'Something went wrong')
+        commit(types.AUTH_UPDATE_LOADING, false)
+      })
+  },
   login ({ commit, dispatch }, credentials) {
     commit(types.AUTH_UPDATE_LOADING, true)
     return axios.post('http://localhost/api/auth/login', credentials)
