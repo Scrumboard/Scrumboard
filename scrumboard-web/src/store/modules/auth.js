@@ -2,6 +2,7 @@ import * as types from '../mutation-types'
 import axios from 'axios'
 
 const state = {
+  token: '',
   user: null,
 
   loading: false,
@@ -13,15 +14,16 @@ const getters = {
 
 const actions = {
   login ({ commit }, credentials) {
-    commit('updateLoading', true)
-    return axios.post('http://localhost/api/true', credentials)
+    commit(types.AUTH_UPDATE_LOADING, true)
+    return axios.post('http://localhost/api/auth/login', credentials)
       .then(response => {
+        commit(types.AUTH_UPDATE_TOKEN, response.token)
         commit(types.AUTH_UPDATE_USER, {})
         commit(types.AUTH_UPDATE_LOADING, false)
       })
       .catch(e => {
-        commit(types.AUTH_UPDATE_LOADING, false)
         commit(types.AUTH_UPDATE_ERROR, 'Credentials not found')
+        commit(types.AUTH_UPDATE_LOADING, false)
       })
   }
 }
