@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from '@/components/Landing'
-import Register from '@/components/Register'
-import Login from '@/components/Login'
-import Logout from '@/components/Logout'
+import Register from '@/components/auth/Register'
+import Login from '@/components/auth/Login'
+import Logout from '@/components/auth/Logout'
 
 Vue.use(Router)
 

@@ -74,7 +74,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import TheHeader from './shared/TheHeader'
+import TheHeader from '../shared/TheHeader'
 
 export default {
   beforeDestroy () {
