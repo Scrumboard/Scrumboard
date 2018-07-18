@@ -10,14 +10,8 @@
             <div class="card-body">
               <h5 class="card-title text-center">Login</h5>
 
-              <div class="alert alert-info" v-if="loading">
-                Logging in...
-              </div>
-              <div class="alert alert-success" v-else-if="user">
+              <div class="alert alert-success" v-if="user">
                 Welcome, {{ user.email }}!
-              </div>
-              <div class="alert alert-success" v-else-if="token">
-                Logged in!
               </div>
               <div class="alert alert-danger" v-else-if="error">
                 {{ error }}
@@ -85,16 +79,14 @@ export default {
   data () {
     return {
       form: {
-        email: '',
-        password: '',
+        email: 'erwinolie@gmail.com',
+        password: 'wachtwoord123',
         remember: false
       }
     }
   },
   computed: mapState('auth', {
-    token: state => state.token,
     user: state => state.user,
-    loading: state => state.loading,
     error: state => state.error
   }),
   methods: {

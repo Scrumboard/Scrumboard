@@ -28,14 +28,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function serializeToken()
+    public function generateToken()
     {
         $tokenResult = $this->createToken('Personal Access Token');
         $tokenResult->token->save();
 
-        return response()->json([
+        return [
             'token' => $tokenResult->accessToken,
             'type' => 'Bearer'
-        ]);
+        ];
     }
 }

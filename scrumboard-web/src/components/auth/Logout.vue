@@ -10,17 +10,20 @@
             <div class="card-body">
               <h5 class="card-title text-center">Logout</h5>
 
-              <div class="alert alert-info" v-if="loading">
+              <div class="alert alert-info" v-if="user">
                 Logging out...
               </div>
-              <div class="alert alert-success" v-else-if="!user">
+              <div class="alert alert-success" v-else>
                 Logged out!
               </div>
 
+            </div>
           </div>
+
         </div>
       </div>
     </div>
+
   </div>
 </template>
 

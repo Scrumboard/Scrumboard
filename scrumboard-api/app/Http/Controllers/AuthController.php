@@ -24,7 +24,10 @@ class AuthController extends Controller
         $user = new User($details);
         $user->save();
         
-        return $user->serializeToken();
+        return [
+            'auth' => $user->generateToken(),
+            'user' => $user
+        ];
     }
 
     public function login(Request $request)
@@ -40,7 +43,10 @@ class AuthController extends Controller
 
         $user = $request->user();
 
-        return $user->serializeToken();
+        return [
+            'auth' => $user->generateToken(),
+            'user' => $user
+        ];
     }
 
     public function logout(Request $request)

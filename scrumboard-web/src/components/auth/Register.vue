@@ -10,14 +10,8 @@
             <div class="card-body">
               <h5 class="card-title text-center">Register</h5>
 
-              <div class="alert alert-info" v-if="loading">
-                Creating account...
-              </div>
-              <div class="alert alert-success" v-else-if="user">
+              <div class="alert alert-success" v-if="user">
                 Welcome, {{ user.email }}!
-              </div>
-              <div class="alert alert-success" v-else-if="token">
-                Created account!
               </div>
               <div class="alert alert-danger" v-else-if="error">
                 {{ error }}
@@ -90,9 +84,7 @@ export default {
     }
   },
   computed: mapState('auth', {
-    token: state => state.token,
     user: state => state.user,
-    loading: state => state.loading,
     error: state => state.error
   }),
   methods: {
