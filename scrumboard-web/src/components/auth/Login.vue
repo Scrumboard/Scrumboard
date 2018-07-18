@@ -85,16 +85,14 @@ export default {
       }
     }
   },
-  computed: mapState('auth', {
-    user: state => state.user,
-    error: state => state.error
-  }),
-  methods: {
-    ...mapActions('auth', [
-      'login',
-      'hideError'
-    ])
-  },
+  computed: mapState('auth', [
+    'user',
+    'error'
+  ]),
+  methods: mapActions('auth', [
+    'login',
+    'hideError'
+  ]),
   components: {
     TheHeader
   }

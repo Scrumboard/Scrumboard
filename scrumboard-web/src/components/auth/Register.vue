@@ -83,16 +83,14 @@ export default {
       }
     }
   },
-  computed: mapState('auth', {
-    user: state => state.user,
-    error: state => state.error
-  }),
-  methods: {
-    ...mapActions('auth', [
-      'register',
-      'hideError'
-    ])
-  },
+  computed: mapState('auth', [
+    'user',
+    'error'
+  ]),
+  methods: mapActions('auth', [
+    'register',
+    'hideError'
+  ]),
   components: {
     TheHeader
   }

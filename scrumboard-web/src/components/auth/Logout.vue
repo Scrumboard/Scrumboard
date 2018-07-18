@@ -35,9 +35,9 @@ export default {
   created () {
     this.logout()
   },
-  computed: mapState('auth', {
-    user: state => state.user
-  }),
+  computed: mapState('auth', [
+    'user'
+  ]),
   methods: {
     ...mapActions('auth', [
       'logout'
