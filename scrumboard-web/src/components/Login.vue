@@ -10,14 +10,17 @@
             <div class="card-body">
               <h5 class="card-title text-center">Login</h5>
 
-              <div class="alert alert-danger" v-if="alert.message">
-                {{ alert.message }}
-                <button type="button" class="close" @click="alertHide()">
-                  &times;
-                </button>
+              <div class="alert alert-info" v-if="loading">
+                Logging in...
+              </div>
+              <div class="alert alert-success" v-else-if="user">
+                Logged in!
+              </div>
+              <div class="alert alert-danger" v-else-if="error">
+                {{ error }}
               </div>
 
-              <form @submit.prevent="submit()">
+              <form @submit.prevent="login(form)">
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -66,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import TheHeader from './shared/TheHeader'
 
 export default {
@@ -76,27 +79,16 @@ export default {
         email: '',
         password: '',
         remember: false
-      },
-      alert: {
-        message: ''
       }
     }
   },
+  computed: mapState('auth', {
+    loading: state => state.loading,
+    user: state => state.user,
+    error: state => state.error
+  }),
   methods: {
-    alertHide () {
-      this.alert.message = ''
-    },
-    submit () {
-      this.alert.message = 'Loading...'
-      this.login(this.form)
-        .then(response => {
-          this.alert.message = 'yay'
-        })
-        .catch(e => {
-          this.alert.message = 'noes'
-        })
-    },
-    ...mapActions([
+    ...mapActions('auth', [
       'login'
     ])
   },
