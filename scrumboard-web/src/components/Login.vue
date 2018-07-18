@@ -14,6 +14,9 @@
                 Logging in...
               </div>
               <div class="alert alert-success" v-else-if="user">
+                Welcome, {{ user.email }}!
+              </div>
+              <div class="alert alert-success" v-else-if="token">
                 Logged in!
               </div>
               <div class="alert alert-danger" v-else-if="error">
@@ -83,8 +86,9 @@ export default {
     }
   },
   computed: mapState('auth', {
-    loading: state => state.loading,
+    token: state => state.token,
     user: state => state.user,
+    loading: state => state.loading,
     error: state => state.error
   }),
   methods: {
