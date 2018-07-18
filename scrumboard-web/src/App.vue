@@ -14,14 +14,12 @@ export default {
 
 @import "./src/assets/colors.scss";
 
-html,body {
-  background:$lightblue!important;
-  height:100%;
-  width:100%;
-  background-attachment: fixed;
-  position:absolute;
-  left:0px;
-  right:0px;
+body {
+  background: $lightblue;
   font-family: 'Hind', sans-serif;
+}
+
+html {
+  overflow-y: scroll;
 }
 </style>
