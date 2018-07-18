@@ -23,14 +23,8 @@ class AuthController extends Controller
 
         $user = new User($details);
         $user->save();
-
-        $tokenResult = $user->createToken('Personal Access Token');
-        $tokenResult->token->save();
-
-        return response()->json([
-            'token' => $tokenResult->accessToken,
-            'type' => 'Bearer'
-        ]);
+        
+        return $user->serializeToken();
     }
 
     public function login(Request $request)
@@ -45,14 +39,8 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
-        
-        $tokenResult = $user->createToken('Personal Access Token');
-        $tokenResult->token->save();
 
-        return response()->json([
-            'token' => $tokenResult->accessToken,
-            'type' => 'Bearer'
-        ]);
+        return $user->serializeToken();
     }
 
     public function logout(Request $request)

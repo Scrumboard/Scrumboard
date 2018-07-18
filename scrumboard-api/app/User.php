@@ -27,4 +27,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function serializeToken()
+    {
+        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult->token->save();
+
+        return response()->json([
+            'token' => $tokenResult->accessToken,
+            'type' => 'Bearer'
+        ]);
+    }
 }
