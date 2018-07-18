@@ -12,9 +12,9 @@ const getters = {
 }
 
 const actions = {
-  login ({ commit }, body) {
+  login ({ commit }, credentials) {
     commit('updateLoading', true)
-    return axios.post('http://localhost/api/true', { body })
+    return axios.post('http://localhost/api/true', credentials)
       .then(response => {
         commit(types.AUTH_UPDATE_USER, {})
         commit(types.AUTH_UPDATE_LOADING, false)
