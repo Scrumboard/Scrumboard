@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     public function serializeToken()
     {
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $this->createToken('Personal Access Token');
         $tokenResult->token->save();
 
         return response()->json([
