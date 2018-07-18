@@ -9,16 +9,16 @@
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="navbar-nav ml-auto text-center">
         <li class="nav-item px-3">
-          <router-link :to="{ name: 'login' }" class="nav-link">Login</router-link>
+          <router-link v-if="!user" :to="{ name: 'login' }" class="nav-link">Login</router-link>
         </li>
         <li class="nav-item px-3">
-          <router-link :to="{ name: 'register' }" class="nav-link">Register</router-link>
+          <router-link v-if="!user" :to="{ name: 'register' }" class="nav-link">Register</router-link>
         </li>
         <li class="nav-item px-3">
           <router-link :to="{ name: 'Landing' }" class="nav-link">Home</router-link>
         </li>
         <li class="nav-item px-3">
-          <router-link :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
+          <router-link v-if="user" :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
         </li>
       </ul>
     </div>
@@ -26,7 +26,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+  computed: mapState('auth', {
+    user: state => state.user
+  })
 }
 </script>
 
