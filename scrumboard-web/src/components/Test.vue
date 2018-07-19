@@ -6,7 +6,7 @@
     <div class="container">
       <div class="row flex-nowrap bg-dark">
 
-        <div v-for="lane in lanes" :key="lane.title" class="col-6 p-2 bg-light border border-success">
+        <div v-for="lane in lanes" :key="lane.title" class="col-6 bg-light border border-success">
 
           <div class="row">
             <div class="col-12">
@@ -76,7 +76,5 @@ export default {
 <style lang="scss" scoped>
   .row {
     overflow-x: scroll;
-    margin-left: 0;
-    margin-right: 0;
   }
 </style>
