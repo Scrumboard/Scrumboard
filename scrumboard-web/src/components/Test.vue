@@ -17,24 +17,25 @@
         </div>
 
       </div>
-      <div class="row flex-nowrap bg-dark" id="test">
 
-        <div v-for="lane in lanes" :key="lane.title" class="col-6 col-md-4 col-lg-3 bg-light border border-success">
+      <Draggable :lanes="lanes">
 
-          <draggable class="row" v-model="lane.items" :options="{draggable: '.item', group: 'scrumboard', animation: 150}">
-            <div v-for="item in lane.items" :key="item.id" class="col-12 item">
-              <div class="card m-2">
-                <div class="card-body">
-                  {{ item.title }}<br />
-                  <span @click="selected = item" data-toggle="modal" data-target="#modal">-></span>
-                </div>
-              </div>
+        <template slot="drag-item"  slot-scope="{item}">
+          <div class="card m-2 rounded-0" @mouseover="active = item" @mouseout="active = null">
+            <div class="card-body pb-0">
+              <p class="card-text">{{item.title}}</p>
+
+              <p class="card-text float-right" :class="{'text-muted': (item != active)}">
+                <span @click="updateSelected(item)" data-toggle="modal" data-target="#modal">
+                  <i class="fas fa-exchange-alt"></i>
+                </span>
+              </p>
             </div>
-          </draggable>
+          </div>
+        </template>
 
-        </div>
+      </Draggable>
 
-      </div>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog">
@@ -48,7 +49,7 @@
           </div>
           <div class="modal-body">
             <div class="list-group">
-              <a v-for="lane in lanes" :key="lane.id" @click="moveItem(selected, lane)" :class="{active: lane.items.indexOf(selected) > -1}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
+              <a v-for="lane in lanes" :key="lane.id" @click="moveItem({selected, lane})" :class="{active: lane.items.indexOf(selected) > -1}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
             </div>
           </div>
         </div>
@@ -59,63 +60,31 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapState } from 'vuex'
 import TheHeader from './shared/TheHeader'
-import draggable from 'vuedraggable'
+import Draggable from './utils/Draggable'
 
 export default {
   data () {
     return {
-      selected: null,
-      lanes: [
-        {
-          id: 1,
-          title: 'Todo',
-          items: [
-            { id: 1, title: 'item 1' },
-            { id: 2, title: 'item 2' },
-            { id: 3, title: 'item 3' }
-          ]
-        },
-        {
-          id: 2,
-          title: 'Progress',
-          items: [
-            { id: 4, title: 'item 4' },
-            { id: 5, title: 'item 5' }
-          ]
-        },
-        {
-          id: 3,
-          title: 'Testing',
-          items: [
-            { id: 6, title: 'item 6' }
-          ]
-        },
-        {
-          id: 4,
-          title: 'Done',
-          items: [
-            { id: 7, title: 'item 7' },
-            { id: 8, title: 'item 8' }
-          ]
-        }
-      ]
+      active: null
     }
   },
+  computed: mapState('board', [
+    'selected',
+    'lanes'
+  ]),
   methods: {
-    moveItem (selected, laneTo) {
-      for (let lane of this.lanes) {
-        let index = lane.items.indexOf(selected)
-        if (index > -1) {
-          lane.items.splice(index, 1)
-        }
-      }
-      laneTo.items.push(selected)
-    }
+    ...mapActions('board', [
+      'moveItem'
+    ]),
+    ...mapMutations('board', [
+      'updateSelected'
+    ])
   },
   components: {
     TheHeader,
-    draggable
+    Draggable
   }
 }
 </script>

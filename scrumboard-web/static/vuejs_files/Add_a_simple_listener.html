@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <link href="Event_listener_with_an_arrow_function_data/samples.css" rel="stylesheet" type="text/css">
+        
+        <title>EventTarget.addEventListener() - Add_a_simple_listener - code sample</title>
+    </head>
+    <body>
+        
+            <table id="outside">
+    <tbody><tr><td id="t1">one</td></tr>
+    <tr><td id="t2">two</td></tr>
+</tbody></table>
+
+        
+        
+            <script>
+                // Function to change the content of t2
+function modifyText() {
+  var t2 = document.getElementById("t2");
+  if (t2.firstChild.nodeValue == "three") {
+    t2.firstChild.nodeValue = "two";
+  } else {
+    t2.firstChild.nodeValue = "three";
+  }
+}
+
+// add event listener to table
+var el = document.getElementById("outside");
+el.addEventListener("click", modifyText, false);
+
+            </script>
+        
+    
+</body></html>
