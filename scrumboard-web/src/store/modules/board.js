@@ -1,63 +1,61 @@
+import axios from 'axios'
 
 const state = {
   selected: null,
-  lanes: [
-    {
-      id: 1,
-      title: 'Todo',
-      items: [
-        { id: 1, title: 'item 1' },
-        { id: 2, title: 'item 2' },
-        { id: 3, title: 'item 3' }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Progress',
-      items: [
-        { id: 4, title: 'item 4' },
-        { id: 5, title: 'item 5' }
-      ]
-    },
-    {
-      id: 3,
-      title: 'Testing',
-      items: [
-        { id: 6, title: 'item 6' }
-      ]
-    },
-    {
-      id: 4,
-      title: 'Done',
-      items: [
-        { id: 7, title: 'item 7' },
-        { id: 8, title: 'item 8' }
-      ]
-    }
-  ]
+  lanes: [],
+  loading: false
 }
 
 const getters = {
 }
 
 const actions = {
-  moveItem ({ commit }, { selected, lane }) {
-    commit('removeItem', selected)
-    commit('addItem', {lane, selected})
+  findLanes ({ commit }) {
+    commit('updateLoading', true)
+    axios.get('/api/board').then(board => {
+      commit('updateBoard', board)
+      commit('updateLoading', false)
+    })
+  },
+  moveTask ({ commit }, { selected, lane }) {
+    commit('updateLoading', true)
+    let tasks = lane.tasks.map(task => task.id)
+    tasks.push(selected.id)
+    axios.post('/api/board/lane/' + lane.id, {tasks}).then(board => {
+      commit('updateBoard', board)
+      commit('updateLoading', false)
+    })
+  },
+  createTask ({ commit }, lane) {
+    commit('updateLoading', true)
+    axios.get('/api/board/lane/' + lane.id + '/create').then(board => {
+      commit('updateBoard', board)
+      commit('updateLoading', false)
+    })
+  },
+  updateLane ({ commit }, lane) {
+    commit('updateLoading', true)
+    let tasks = lane.tasks.map(task => task.id)
+    axios.post('/api/board/lane/' + lane.id, {tasks}).then(board => {
+      commit('updateBoard', board)
+      commit('updateLoading', false)
+    })
+  },
+  deleteTask ({ commit }, task) {
+    commit('updateLoading', true)
+    axios.delete('/api/board/task/' + task.id).then(board => {
+      commit('updateBoard', board)
+      commit('updateLoading', false)
+    })
   }
 }
 
 const mutations = {
-  removeItem (state, item) {
-    for (let lane of state.lanes) {
-      let index = lane.items.indexOf(item)
-      if (index > -1) {
-        lane.items.splice(index, 1)
-      }
-    }
+  updateLoading (state, loading) {
+    state.loading = loading
   },
-  addItem (state, {lane, selected}) {
-    lane.items.push(selected)
+  updateBoard (state, board) {
+    state.lanes = board.lanes
   },
   updateSelected (state, selected) {
     state.selected = selected

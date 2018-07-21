@@ -20,13 +20,16 @@
 
       <Draggable :lanes="lanes">
 
-        <template slot="drag-item"  slot-scope="{item}">
-          <div class="card m-2 rounded-0" @mouseover="active = item" @mouseout="active = null">
+        <template slot="drag-item"  slot-scope="{task}">
+          <div class="card m-2 rounded-0" @mouseover="active = task" @mouseout="active = null">
             <div class="card-body pb-0">
-              <p class="card-text">{{item.title}}</p>
+              <p class="card-text">{{task.title}}</p>
 
-              <p class="card-text float-right" :class="{'text-muted': (item != active)}">
-                <span @click="updateSelected(item)" data-toggle="modal" data-target="#modal">
+              <p class="card-text float-right" :class="{'text-muted': (task != active)}">
+                <span @click="deleteTask(task)">
+                  <i class="fas fa-trash"></i>
+                </span>
+                <span @click="updateSelected(task)" data-toggle="modal" data-target="#modal">
                   <i class="fas fa-exchange-alt"></i>
                 </span>
               </p>
@@ -35,6 +38,22 @@
         </template>
 
       </Draggable>
+
+      <div class="row flex-nowrap bg-dark">
+
+        <div v-for="lane in lanes" :key="lane.title" class="col-6 col-md-4 col-lg-3 bg-light border border-success">
+
+          <div class="row" >
+            <div class="col-12">
+              <i class="fas fa-plus-circle" @click="createTask(lane)"></i>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      
 
     </div>
 
@@ -49,7 +68,7 @@
           </div>
           <div class="modal-body">
             <div class="list-group">
-              <a v-for="lane in lanes" :key="lane.id" @click="moveItem({selected, lane})" :class="{active: lane.items.indexOf(selected) > -1}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
+              <a v-for="lane in lanes" :key="lane.id" @click="moveTask({selected, lane})" :class="{active: lane.tasks.indexOf(selected) > -1}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
             </div>
           </div>
         </div>
@@ -65,6 +84,9 @@ import TheHeader from './shared/TheHeader'
 import Draggable from './utils/Draggable'
 
 export default {
+  created () {
+    this.findLanes()
+  },
   data () {
     return {
       active: null
@@ -76,7 +98,10 @@ export default {
   ]),
   methods: {
     ...mapActions('board', [
-      'moveItem'
+      'moveTask',
+      'findLanes',
+      'createTask',
+      'deleteTask'
     ]),
     ...mapMutations('board', [
       'updateSelected'
@@ -93,4 +118,6 @@ export default {
   .container {
     overflow-x: scroll;
   }
+
+
 </style>
