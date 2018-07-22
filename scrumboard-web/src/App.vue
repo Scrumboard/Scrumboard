@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
-   </div>
+  </div>
 </template>
 
 <script>
@@ -11,15 +11,15 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "./src/assets/colors.scss";
 
-@import "./src/assets/colors.scss";
+  html {
+    overflow-y: scroll;
+  }
 
-body {
-  background: $lightblue;
-  font-family: 'Hind', sans-serif;
-}
-
-html {
-  overflow-y: scroll;
-}
+  body {
+    background: $lightblue;
+    font-family: 'Hind', sans-serif;
+    padding-right: 0 !important;
+  }
 </style>

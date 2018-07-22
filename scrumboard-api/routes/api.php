@@ -43,11 +43,13 @@ Route::group(['prefix' => 'board'], function () {
 
         return Board::find(1);
     });
-    Route::post('lane/{lane}', function (Lane $lane, Request $request) {
+    Route::put('lane/{lane}/tasks', function (Lane $lane, Request $request) {
         
-        for ($i = 0; $i < count($request->tasks); $i++) {
-            $task = Task::find($request->tasks[$i]);
+        $tasks = $request->tasks;
 
+        for ($i = 0; $i < count($tasks); $i++)
+        {
+            $task = Task::find($tasks[$i]);
             $task->lane_id = $lane->id;
             $task->lane_order = $i;
             $task->save();

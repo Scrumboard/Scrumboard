@@ -1,64 +1,57 @@
+import * as types from '../mutation-types'
 import axios from 'axios'
 
 const state = {
-  selected: null,
-  lanes: [],
-  loading: false
+  activeTask: null,
+  activeBoard: {
+    lanes: []
+  }
 }
 
 const getters = {
+  getLaneByTask: (state) => (task) => {
+    return state.activeBoard.lanes.find(lane => lane.tasks.indexOf(task) > -1)
+  }
 }
 
 const actions = {
-  findLanes ({ commit }) {
-    commit('updateLoading', true)
-    axios.get('/api/board').then(board => {
-      commit('updateBoard', board)
-      commit('updateLoading', false)
+  findLanes ({commit}) {
+    axios.get(`/api/board`).then(board => {
+      commit(types.SET_ACTIVE_BOARD, board)
     })
   },
-  moveTask ({ commit }, { selected, lane }) {
-    commit('updateLoading', true)
+  moveTask ({dispatch}, {task, lane}) {
     let tasks = lane.tasks.map(task => task.id)
-    tasks.push(selected.id)
-    axios.post('/api/board/lane/' + lane.id, {tasks}).then(board => {
-      commit('updateBoard', board)
-      commit('updateLoading', false)
+    tasks.push(task.id)
+    dispatch('persistLaneTasks', {lane, tasks})
+  },
+  createTask ({commit}, lane) {
+    axios.get(`/api/board/lane/${lane.id}/create`).then(board => {
+      commit(types.SET_ACTIVE_BOARD, board)
     })
   },
-  createTask ({ commit }, lane) {
-    commit('updateLoading', true)
-    axios.get('/api/board/lane/' + lane.id + '/create').then(board => {
-      commit('updateBoard', board)
-      commit('updateLoading', false)
-    })
-  },
-  updateLane ({ commit }, lane) {
-    commit('updateLoading', true)
+  updateLane ({dispatch}, lane) {
     let tasks = lane.tasks.map(task => task.id)
-    axios.post('/api/board/lane/' + lane.id, {tasks}).then(board => {
-      commit('updateBoard', board)
-      commit('updateLoading', false)
+    dispatch('persistLaneTasks', {lane, tasks})
+  },
+  persistLaneTasks ({commit}, {lane, tasks}) {
+    axios.put(`/api/board/lane/${lane.id}/tasks`, {tasks}).then(board => {
+      commit(types.SET_ACTIVE_BOARD, board)
     })
   },
-  deleteTask ({ commit }, task) {
-    commit('updateLoading', true)
-    axios.delete('/api/board/task/' + task.id).then(board => {
-      commit('updateBoard', board)
-      commit('updateLoading', false)
+  deleteTask ({commit}, task) {
+    axios.delete(`/api/board/task/${task.id}`).then(board => {
+      commit(types.SET_ACTIVE_BOARD, board)
     })
   }
 }
 
 const mutations = {
-  updateLoading (state, loading) {
-    state.loading = loading
+  [types.SET_ACTIVE_BOARD] (state, board) {
+    state.activeBoard = board
   },
-  updateBoard (state, board) {
-    state.lanes = board.lanes
-  },
-  updateSelected (state, selected) {
-    state.selected = selected
+  [types.SET_ACTIVE_TASK] (state, task) {
+    state.activeTask = task
   }
 }
 
