@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="list-group">
-            <a v-for="lane in lanes" :key="lane.id" @click="moveTask({task, lane})" :class="{active: lane.tasks.indexOf(task) > -1}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
+            <a v-for="lane in lanes" :key="lane.id" @click="moveTask({task, laneId: lane.id})" :class="{active: task.lane_id === lane.id}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
           </div>
         </div>
       </div>

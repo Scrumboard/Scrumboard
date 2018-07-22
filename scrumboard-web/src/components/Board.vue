@@ -6,7 +6,7 @@
     <div class="container">
 
       <div class="row flex-nowrap bg-dark" id="test">
-        <div v-for="lane in activeBoard.lanes" :key="lane.id" :id="'lane-'+lane.id" @drop.prevent @dragover.prevent="insertLane($event, lane)"  class="col-6 col-md-4 col-lg-3 bg-dark border border-success">
+        <div v-for="lane in lanes" :key="lane.id" :id="'lane-'+lane.id" @drop.prevent @dragover.prevent="dragoverLane($event, lane)"  class="col-6 col-md-4 col-lg-3 bg-dark border border-success">
 
           <!-- title -->
           <div class="row" >
@@ -18,10 +18,10 @@
           <!-- tasks -->
           <div draggable="true"
             @dragstart="dragstart($event, task)" @dragend="dragend"
-            @dragover="dragover($event, lane, taskIndex)"
+            @dragover="dragoverTask($event, lane, task)"
             :class="{selected:(task == activeTask)}"
-            v-for="(task, taskIndex) in lane.tasks" :key="task.id"
-            :id="task.id">
+            v-for="task in tasksOrdered" v-if="task.lane_id === lane.id" :key="task.id"
+            :id="'task-'+task.id">
 
             <div class="card m-2 rounded-0">
               <div class="card-body pb-0">
@@ -31,7 +31,7 @@
                   <span @click="deleteTask(task)">
                     <i class="fas fa-trash"></i>
                   </span>
-                  <span @click="setActiveTask(task)" data-toggle="modal" data-target="#changeLaneModal">
+                  <span @click="activeTask = task" data-toggle="modal" data-target="#changeLaneModal">
                     <i class="fas fa-exchange-alt"></i>
                   </span>
                 </p>
@@ -51,67 +51,69 @@
 
     </div>
 
-    <ChangeLaneModal :task="activeTask" :lanes="activeBoard.lanes" />
+    <ChangeLaneModal :task="activeTask" :lanes="lanes" />
 
   </div>
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
-import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import TheHeader from './shared/TheHeader'
 import ChangeLaneModal from './modals/ChangeLaneModal'
 
 export default {
   created () {
-    this.findLanes()
+    this.findBoard()
+  },
+  data () {
+    return {
+      activeTask: null
+    }
   },
   computed: {
     ...mapState('board', [
-      'activeTask',
-      'activeBoard'
+      'lanes',
+      'tasks'
     ]),
     ...mapGetters('board', [
-      'getLaneByTask'
+      'tasksOrdered'
     ])
   },
   methods: {
     dragstart (event, task) {
-      this.setActiveTask(task)
+      this.activeTask = task
       event.dataTransfer.setData('text/plain', '')
     },
     dragend (event) {
-      let lane = this.getLaneByTask(this.activeTask)
-      this.updateLane(lane)
-      this.setActiveTask(null)
+      this.updateLane(this.activeTask.lane_id)
+      this.activeTask = null
     },
-    dragover (event, lane, taskIndex) {
-      this.removeTask(this.activeTask)
-      let index = event.layerY / event.target.clientHeight < 0.5 ? taskIndex : taskIndex + 1
-      lane.tasks.splice(index, 0, this.activeTask)
+    dragoverTask (event, lane, task) {
+      if (this.activeTask.id === task.id) {
+        return
+      }
+      let target = event.target
+      while (target && target.id.indexOf('task-') === -1) {
+        target = target.parentElement
+      }
+      if (!target) {
+        return
+      }
+      this.activeTask.lane_id = lane.id
+      this.activeTask.lane_order = task.lane_order + (event.layerY / target.clientHeight) - 0.5
+    },
+    dragoverLane (event, lane) {
+      if (event.target.id.indexOf('lane-') > -1) {
+        this.activeTask.lane_id = lane.id
+      }
     },
 
     ...mapActions('board', [
-      'findLanes',
+      'findBoard',
       'createTask',
       'deleteTask',
       'updateLane'
-    ]),
-    ...mapMutations('board', {
-      'setActiveTask': types.SET_ACTIVE_TASK
-    }),
-
-    insertLane (event, lane) {
-      if (event.target.id.indexOf('lane-') === -1) {
-        return
-      }
-      this.removeTask(this.activeTask)
-      lane.tasks.push(this.activeTask)
-    },
-    removeTask (task) {
-      let lane = this.getLaneByTask(task)
-      lane.tasks.splice(lane.tasks.indexOf(task), 1)
-    }
+    ])
   },
   components: {
     TheHeader,
