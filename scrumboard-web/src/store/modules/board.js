@@ -41,6 +41,11 @@ const actions = {
     axios.delete(`/api/board/1/task/${task.id}`).then(board => {
       commit(types.SET_ACTIVE_BOARD, board)
     })
+  },
+  updateTaskTitle ({commit}, task) {
+    axios.put(`/api/board/1/task/${task.id}`, task).then(board => {
+      commit(types.SET_ACTIVE_BOARD, board)
+    })
   }
 }
 

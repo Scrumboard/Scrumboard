@@ -22,6 +22,14 @@ class TaskController extends Controller
         return Board::find(1);
     }
 
+    function update (Board $board, Task $task, Request $request)
+    {
+        $task->title = $request->title;
+        $task->save();
+        
+        return Board::find(1);
+    }
+
     function delete (Board $board, Task $task)
     {
         $task->delete();

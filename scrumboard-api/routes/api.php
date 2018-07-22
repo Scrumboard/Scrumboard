@@ -32,4 +32,5 @@ Route::group(['prefix' => 'board'], function () {
     Route::post('{board}/lane/{lane}/tasks', 'TaskController@create');
     Route::put('{board}/lane/{lane}/tasks', 'LaneController@update');
     Route::delete('{board}/task/{task}', 'TaskController@delete');
+    Route::put('{board}/task/{task}', 'TaskController@update');
 });

@@ -4,7 +4,7 @@
       <div class="modal-content" v-if="task">
         <div class="modal-header">
           <h5 class="modal-title">{{task.title}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>

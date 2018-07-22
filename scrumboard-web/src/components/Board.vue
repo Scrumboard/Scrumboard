@@ -28,6 +28,9 @@
                 <p class="card-text">{{task.title}}</p>
 
                 <p class="card-text float-right task-options">
+                  <span @click="activeTask = task" data-toggle="modal" data-target="#editTitleModal">
+                    <i class="fas fa-edit"></i>
+                  </span>
                   <span @click="deleteTask(task)">
                     <i class="fas fa-trash"></i>
                   </span>
@@ -52,6 +55,7 @@
     </div>
 
     <ChangeLaneModal :task="activeTask" :lanes="lanes" />
+    <EditTitleModal :task="activeTask" />
 
   </div>
 </template>
@@ -60,6 +64,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import TheHeader from './shared/TheHeader'
 import ChangeLaneModal from './modals/ChangeLaneModal'
+import EditTitleModal from './modals/EditTitleModal'
 
 export default {
   created () {
@@ -117,7 +122,8 @@ export default {
   },
   components: {
     TheHeader,
-    ChangeLaneModal
+    ChangeLaneModal,
+    EditTitleModal
   }
 }
 </script>
