@@ -27,10 +27,13 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
+Route::group(['prefix' => 'tasks'], function () {
+    Route::post('', 'TaskController@create');
+    Route::put('{task}', 'TaskController@update');
+    Route::put('', 'TaskController@updateMultiple');
+    Route::delete('{task}', 'TaskController@delete');
+});
+
 Route::group(['prefix' => 'board'], function () {
     Route::get('{board}', 'BoardController@find');
-    Route::post('{board}/lane/{lane}/tasks', 'TaskController@create');
-    Route::put('{board}/lane/{lane}/tasks', 'LaneController@update');
-    Route::delete('{board}/task/{task}', 'TaskController@delete');
-    Route::put('{board}/task/{task}', 'TaskController@update');
 });

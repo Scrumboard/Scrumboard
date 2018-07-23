@@ -9,7 +9,7 @@
           <div class="form-group">
             <input type="text" class="form-control" id="title" v-model="task.title">
           </div>
-          <button type="button" class="btn btn-success" @click="updateTaskTitle(task)" data-dismiss="modal">Save</button>
+          <button type="button" class="btn btn-success" @click="saveTask(task)" data-dismiss="modal">Save</button>
         </div>
       </div>
     </div>
@@ -17,12 +17,16 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  props: ['task'],
+  computed: {
+    ...mapGetters('board', {
+      task: 'activeTask'
+    })
+  },
   methods: mapActions('board', [
-    'updateTaskTitle'
+    'saveTask'
   ])
 }
 </script>

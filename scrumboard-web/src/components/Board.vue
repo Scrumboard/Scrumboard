@@ -19,8 +19,8 @@
           <div draggable="true"
             @dragstart="dragstart($event, task)" @dragend="dragend"
             @dragover="dragoverTask($event, lane, task)"
-            :class="{selected:(task == activeTask)}"
-            v-for="task in tasksOrdered" v-if="task.lane_id === lane.id" :key="task.id"
+            :class="{selected:isActive(task)}"
+            v-for="task in getTaskByLaneOrdered(lane.id)" :key="task.id"
             :id="'task-'+task.id">
 
             <div class="card m-2 rounded-0">
@@ -28,13 +28,13 @@
                 <p class="card-text">{{task.title}}</p>
 
                 <p class="card-text float-right task-options">
-                  <span @click="activeTask = task" data-toggle="modal" data-target="#editTitleModal">
+                  <span @click="setActiveTask(task.id)" data-toggle="modal" data-target="#editTitleModal">
                     <i class="fas fa-edit"></i>
                   </span>
                   <span @click="deleteTask(task)">
                     <i class="fas fa-trash"></i>
                   </span>
-                  <span @click="activeTask = task" data-toggle="modal" data-target="#changeLaneModal">
+                  <span @click="setActiveTask(task.id)" data-toggle="modal" data-target="#changeLaneModal">
                     <i class="fas fa-exchange-alt"></i>
                   </span>
                 </p>
@@ -54,14 +54,14 @@
 
     </div>
 
-    <ChangeLaneModal :task="activeTask" :lanes="lanes" />
-    <EditTitleModal :task="activeTask" />
+    <ChangeLaneModal :lanes="lanes" />
+    <EditTitleModal />
 
   </div>
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import TheHeader from './shared/TheHeader'
 import ChangeLaneModal from './modals/ChangeLaneModal'
 import EditTitleModal from './modals/EditTitleModal'
@@ -70,28 +70,26 @@ export default {
   created () {
     this.findBoard()
   },
-  data () {
-    return {
-      activeTask: null
-    }
-  },
   computed: {
     ...mapState('board', [
       'lanes',
-      'tasks'
+      'tasks',
+      'activeTaskId'
     ]),
     ...mapGetters('board', [
-      'tasksOrdered'
+      'getTaskByLaneOrdered',
+      'getTaskById',
+      'activeTask'
     ])
   },
   methods: {
     dragstart (event, task) {
-      this.activeTask = task
+      this.setActiveTask(task.id)
       event.dataTransfer.setData('text/plain', '')
     },
     dragend (event) {
       this.updateLane(this.activeTask.lane_id)
-      this.activeTask = null
+      this.setActiveTask(null)
     },
     dragoverTask (event, lane, task) {
       if (this.activeTask.id === task.id) {
@@ -104,12 +102,20 @@ export default {
       if (!target) {
         return
       }
-      this.activeTask.lane_id = lane.id
-      this.activeTask.lane_order = task.lane_order + (event.layerY / target.clientHeight) - 0.5
+
+      this.updateTaskLane({
+        id: this.activeTask.id,
+        laneId: lane.id,
+        laneOrder: task.lane_order + (event.layerY / target.clientHeight) - 0.5
+      })
     },
     dragoverLane (event, lane) {
       if (event.target.id.indexOf('lane-') > -1) {
-        this.activeTask.lane_id = lane.id
+        this.updateTaskLane({
+          id: this.activeTask.id,
+          laneId: lane.id,
+          laneOrder: 9999
+        })
       }
     },
 
@@ -118,7 +124,15 @@ export default {
       'createTask',
       'deleteTask',
       'updateLane'
-    ])
+    ]),
+    ...mapMutations('board', [
+      'setActiveTask',
+      'updateTaskLane'
+    ]),
+
+    isActive (task) {
+      return task === this.activeTask
+    }
   },
   components: {
     TheHeader,

@@ -2,13 +2,20 @@ import * as types from '../mutation-types'
 import axios from 'axios'
 
 const state = {
+  activeTaskId: null,
   lanes: [],
   tasks: []
 }
 
 const getters = {
-  tasksOrdered: (state) => {
-    return state.tasks.sort((a, b) => a.lane_order > b.lane_order)
+  getTaskById: (state) => (id) => {
+    return state.tasks.find(task => task.id === id)
+  },
+  getTaskByLaneOrdered: (state) => (laneId) => {
+    return state.tasks.filter(task => task.lane_id === laneId).sort((a, b) => a.lane_order > b.lane_order)
+  },
+  activeTask: (state) => {
+    return state.tasks.find(task => task.id === state.activeTaskId)
   }
 }
 
@@ -18,34 +25,45 @@ const actions = {
       commit(types.SET_ACTIVE_BOARD, board)
     })
   },
-  moveTask ({dispatch, state}, {task, laneId}) {
-    let tasks = state.tasks.filter(task => task.lane_id === laneId).map(task => task.id)
-    tasks.push(task.id)
-    dispatch('persistLaneTasks', {laneId, tasks})
-  },
-  createTask ({commit}, lane) {
-    axios.post(`/api/board/1/lane/${lane.id}/tasks`).then(board => {
-      commit(types.SET_ACTIVE_BOARD, board)
+  moveTask ({commit, dispatch, getters}, {task, laneId}) {
+    let tasks = getters.getTaskByLaneOrdered(laneId)
+    commit('updateTaskLane', {
+      id: task.id,
+      laneId: laneId,
+      laneOrder: tasks[tasks.length - 1].lane_order + 1
+    })
+    dispatch('persistTasks', {
+      tasks: getters.getTaskByLaneOrdered(laneId)
     })
   },
-  updateLane ({dispatch, state}, laneId) {
-    let tasks = state.tasks.filter(task => task.lane_id === laneId).map(task => task.id)
-    dispatch('persistLaneTasks', {laneId, tasks})
-  },
-  persistLaneTasks ({commit}, {laneId, tasks}) {
-    axios.put(`/api/board/1/lane/${laneId}/tasks`, {tasks}).then(board => {
-      commit(types.SET_ACTIVE_BOARD, board)
+  createTask ({commit, getters}, lane) {
+    let tasks = getters.getTaskByLaneOrdered(lane.id)
+    const task = {
+      title: 'new task',
+      lane_id: lane.id,
+      lane_order: tasks[tasks.length - 1].lane_order + 1
+    }
+    axios.post(`/api/tasks`, task).then(task => {
+      commit('addTask', task)
     })
+  },
+  updateLane ({dispatch, getters}, laneId) {
+    let tasks = getters.getTaskByLaneOrdered(laneId)
+    dispatch('persistTasks', {tasks})
+  },
+  persistTasks ({commit}, {tasks}) {
+    for (let i = 0; i < tasks.length; i++) {
+      tasks[i].lane_order = i
+    }
+    axios.put(`/api/tasks`, {tasks})
   },
   deleteTask ({commit}, task) {
-    axios.delete(`/api/board/1/task/${task.id}`).then(board => {
-      commit(types.SET_ACTIVE_BOARD, board)
+    axios.delete(`/api/tasks/${task.id}`).then(() => {
+      commit('removeTask', task)
     })
   },
-  updateTaskTitle ({commit}, task) {
-    axios.put(`/api/board/1/task/${task.id}`, task).then(board => {
-      commit(types.SET_ACTIVE_BOARD, board)
-    })
+  saveTask ({commit}, task) {
+    axios.put(`/api/tasks/${task.id}`, task)
   }
 }
 
@@ -53,6 +71,20 @@ const mutations = {
   [types.SET_ACTIVE_BOARD] (state, board) {
     state.lanes = board.lanes
     state.tasks = board.tasks
+  },
+  addTask (state, task) {
+    state.tasks.push(task)
+  },
+  removeTask (state, task) {
+    state.tasks.splice(state.tasks.indexOf(task), 1)
+  },
+  setActiveTask (state, id) {
+    state.activeTaskId = id
+  },
+  updateTaskLane (state, {id, laneId, laneOrder}) {
+    let task = state.tasks.find(task => task.id === id)
+    task.lane_id = laneId
+    task.lane_order = laneOrder
   }
 }
 
