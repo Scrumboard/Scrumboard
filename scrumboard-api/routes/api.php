@@ -27,36 +27,13 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
+Route::group(['prefix' => 'tasks'], function () {
+    Route::post('', 'TaskController@create');
+    Route::put('{task}', 'TaskController@update');
+    Route::put('', 'TaskController@updateMultiple');
+    Route::delete('{task}', 'TaskController@delete');
+});
+
 Route::group(['prefix' => 'board'], function () {
-    Route::get('', function () {
-        return Board::find(1);
-    });
-    Route::get('lane/{lane}/create', function (Lane $lane, Request $request) {
-        
-        $task = new Task;
-        $task->title = 'hello world';
-        $task->lane_id = $lane->id;
-        $task->lane_order = 9999;
-        $task->save();
-        $task->title = '#' . $task->id;
-        $task->save();
-
-        return Board::find(1);
-    });
-    Route::post('lane/{lane}', function (Lane $lane, Request $request) {
-        
-        for ($i = 0; $i < count($request->tasks); $i++) {
-            $task = Task::find($request->tasks[$i]);
-
-            $task->lane_id = $lane->id;
-            $task->lane_order = $i;
-            $task->save();
-        }
-
-        return Board::find(1);
-    });
-    Route::delete('task/{task}', function (Task $task) {
-        $task->delete();
-        return Board::find(1);
-    });
+    Route::get('{board}', 'BoardController@find');
 });
