@@ -38,7 +38,7 @@ export default new Router({
       component: Landing
     },
     {
-    path: '/overview',
+      path: '/overview',
       name: 'overview',
       component: Overview
     }

@@ -16,14 +16,14 @@
 <script>
 
 export default {
-  name: "Team",
-  data() {
-    return {};
+  name: 'Team',
+  data () {
+    return {}
   },
   props: {
     teamName: String
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -44,6 +44,4 @@ export default {
   font-size:20px;
   padding-left:3rem;
 }
-
-
 </style>

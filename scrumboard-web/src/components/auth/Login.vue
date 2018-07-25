@@ -94,8 +94,8 @@ export default {
     'hideError'
   ]),
   watch: {
-    user: function(newUser) {
-      if(newUser != null) {
+    user: function (newUser) {
+      if (newUser != null) {
         this.$router.push('/overview')
       }
     }
