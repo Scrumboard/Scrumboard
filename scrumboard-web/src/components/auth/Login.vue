@@ -79,8 +79,8 @@ export default {
   data () {
     return {
       form: {
-        email: 'erwinolie@gmail.com',
-        password: 'wachtwoord123',
+        email: '',
+        password: '',
         remember: false
       }
     }
@@ -93,6 +93,13 @@ export default {
     'login',
     'hideError'
   ]),
+  watch: {
+    user: function(newUser) {
+      if(newUser != null) {
+        this.$router.push('/overview')
+      }
+    }
+  },
   components: {
     TheHeader
   }

@@ -1,7 +1,8 @@
 <template>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 
-    <a class="navbar-brand" href="#">Scrumboard</a>
+    <!-- <a class="navbar-brand" href="/">Scrumboard</a> -->
+    <router-link :to="{ name: 'Landing' }" class="navbar-brand">Scrumboard</router-link>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
       <span class="navbar-toggler-icon"></span>
@@ -18,7 +19,7 @@
           <router-link :to="{ name: 'Landing' }" class="nav-link">Home</router-link>
         </li>
         <li v-if="user" class="nav-item px-3">
-          <router-link :to="{ name: 'test' }" class="nav-link">Test</router-link>
+          <router-link :to="{ name: 'overview' }" class="nav-link">Overview</router-link>
         </li>
         <li v-if="user" class="nav-item px-3">
           <router-link :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
@@ -40,11 +41,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "./src/assets/colors.scss";
-
-.navbar {
-  font-family: 'Abel', sans-serif;
-}
-
 .navbar-brand {
   font-size: 24px;
 }

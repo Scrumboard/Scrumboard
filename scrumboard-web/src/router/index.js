@@ -5,6 +5,7 @@ import Login from '@/components/auth/Login'
 import Logout from '@/components/auth/Logout'
 import Test from '@/components/Test'
 import Landing from '@/components/Landing'
+import Overview from '@/components/Overview'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/',
       name: 'Landing',
       component: Landing
+    },
+    {
+    path: '/overview',
+      name: 'overview',
+      component: Overview
     }
   ]
 })

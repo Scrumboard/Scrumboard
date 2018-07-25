@@ -81,7 +81,6 @@ export default {
 .github_link:hover {
   border:none;
   outline:none;
-  decoration:none;
 }
 
 .btn-black {
