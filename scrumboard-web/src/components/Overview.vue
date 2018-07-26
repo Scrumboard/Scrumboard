@@ -4,8 +4,8 @@
   <div class="body">
     <!-- The menu bar -->
     <menubar></menubar>
-    <div class="teams d-flex justify-content-center">
-      <team :teamName="'Default'"></team>
+    <div class="teams d-flex justify-content-center flex-wrap">
+      <team :teamName="'Default'" class=""></team>
       <team :teamName="'School'"></team>
     </div>
 
