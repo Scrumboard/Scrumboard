@@ -107,18 +107,18 @@ export default {
     },
 
     removeTask (task) {
-      // let lane = this.lanes.find(lane => lane.id === task.lane_id)
-      // let index = lane.tasks.indexOf(task.id)
-      // lane.tasks.splice(index, 1)
+      let lane = this.lanes.find(lane => lane.id === task.lane_id)
+      let index = lane.tasks.indexOf(task.id)
+      lane.tasks.splice(index, 1)
     },
     insertTaskAbs (lane, task) {
-      // lane.tasks.push(task.id)
-      // task.lane_id = lane.id
+      lane.tasks.push(task.id)
+      task.lane_id = lane.id
     },
     insertTaskRel (lane, task, ref, offset) {
-      // let index = lane.tasks.indexOf(ref.id) + offset
-      // lane.tasks.splice(index, 0, task.id)
-      // task.lane_id = lane.id
+      let index = lane.tasks.indexOf(ref.id) + offset
+      lane.tasks.splice(index, 0, task.id)
+      task.lane_id = lane.id
     },
 
     ...mapActions('board', [

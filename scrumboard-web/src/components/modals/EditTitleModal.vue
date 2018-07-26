@@ -7,9 +7,9 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <input type="text" class="form-control" id="title" v-model="task.title">
+            <input type="text" class="form-control" id="title" v-model="title">
           </div>
-          <button type="button" class="btn btn-success" @click="saveTask(task)" data-dismiss="modal">Save</button>
+          <button type="button" class="btn btn-success" @click="updateTaskTitle({task, title})" data-dismiss="modal">Save</button>
         </div>
       </div>
     </div>
@@ -20,13 +20,23 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  data () {
+    return {
+      title: ''
+    }
+  },
   computed: {
     ...mapGetters('board', {
       task: 'activeTask'
     })
   },
+  watch: {
+    task (val) {
+      this.title = val ? val.title : ''
+    }
+  },
   methods: mapActions('board', [
-    'saveTask'
+    'updateTaskTitle'
   ])
 }
 </script>

@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="list-group">
-            <a v-for="lane in lanes" :key="lane.id" @click="moveTask({task: activeTask, laneId: lane.id})" :class="{active: isOnLane(activeTask, lane)}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
+            <a v-for="lane in lanes" :key="lane.id" @click="moveTask(activeTask, lane)" :class="{active: isOnLane(activeTask, lane)}" class="list-group-item list-group-item-action" data-dismiss="modal">{{lane.title}}</a>
           </div>
         </div>
       </div>
@@ -19,22 +19,27 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  props: ['activeTask'],
   computed: {
     ...mapGetters('board', [
-      'activeTask',
-    ]),
-    ...mapState('board', [
       'lanes'
     ])
   },
   methods: {
     ...mapActions('board', [
-      'moveTask'
+      'saveLane'
     ]),
-    isOnLane(task, lane) {
+    moveTask (task, lane) {
+      if (task.lane_id === lane.id) {
+        return
+      }
+      lane.tasks.push(task.id)
+      this.saveLane(lane)
+    },
+    isOnLane (task, lane) {
       return task.lane_id === lane.id
     }
   }
