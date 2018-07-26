@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const state = {
-  tasks: [],
+  taskActive: null,
   lanes: []
 }
 
@@ -9,55 +9,80 @@ const getters = {
   lanes: (state) => {
     return state.lanes
   },
-  getTaskById: (state) => (id) => {
-    return state.tasks.find(task => task.id === id)
+  getLaneById: (state) => (id) => {
+    return state.lanes.find(lane => lane.id === id)
   },
   getTasksByLane: (state) => (lane) => {
-    return state.tasks.filter(task => task.lane_id === lane.id)
+    return lane.tasks
+  },
+  getLaneByTask: (state) => (task) => {
+    return state.lanes.find(lane => lane.tasks.indexOf(task) > -1)
+  },
+  taskActive: (state) => {
+    return state.taskActive
   }
 }
 
 const actions = {
   loadBoard ({ commit }) {
     axios.get(`/api/board/1`).then(board => {
-      commit('setTasks', board.tasks)
-      commit('setLanes', board.lanes)
-    })
-  },
-  createTask ({ commit }, lane) {
-    axios.post(`/api/board/1/lane/${lane.id}/tasks`, {
-      title: 'new task'
-    }).then(data => {
-      commit('addTask', data.task)
-      commit('setLanes', data.lanes)
-    })
-  },
-  deleteTask ({ commit }, task) {
-    axios.delete(`/api/board/1/lane/${task.lane_id}/task/${task.id}`).then(lanes => {
-      commit('removeTask', task)
-      commit('setLanes', lanes)
+      commit('setBoard', board)
     })
   },
   saveLane ({ commit }, lane) {
-    axios.put(`/api/board/1/lane/${lane.id}`, lane).then(lanes => {
-      commit('setLanes', lanes)
+    axios.put(`/api/lane/${lane.id}`, lane)
+  },
+  saveTask ({ commit }, task) {
+    axios.put(`/api/task/${task.id}`, task)
+  },
+  moveTask ({ commit, getters }, { task, lane, index }) {
+    commit('removeTask', {
+      task,
+      lane: getters.getLaneByTask(task)
+    })
+    commit('insertTask', {
+      task,
+      lane,
+      index
+    })
+  },
+  createTask ({ commit }, lane) {
+    axios.post(`/api/lane/${lane.id}/task`, {
+      title: 'new title y'
+    }).then(task => {
+      commit('insertTask', {
+        task,
+        lane,
+        index: 999
+      })
+    })
+  },
+  deleteTask ({ commit, getters }, task) {
+    axios.delete(`/api/task/${task.id}`).then(() => {
+      commit('removeTask', {
+        task: task,
+        lane: getters.getLaneByTask(task)
+      })
     })
   }
 }
 
 const mutations = {
-  setTasks (state, tasks) {
-    state.tasks = tasks
+  setBoard (state, board) {
+    state.lanes = board.lanes
   },
-  setLanes (state, lanes) {
-    state.lanes = lanes
+  setTaskActive (state, task) {
+    state.taskActive = task
   },
-  addTask (state, task) {
-    state.tasks.push(task)
+  clearTaskActive (state) {
+    state.taskActive = null
   },
-  removeTask (state, task) {
-    const index = state.tasks.map(task => task.id).indexOf(task.id)
-    state.tasks.splice(index, 1)
+  removeTask (state, { task, lane }) {
+    const index = lane.tasks.indexOf(task)
+    lane.tasks.splice(index, 1)
+  },
+  insertTask (state, { task, lane, index }) {
+    lane.tasks.splice(index, 0, task)
   }
 }
 

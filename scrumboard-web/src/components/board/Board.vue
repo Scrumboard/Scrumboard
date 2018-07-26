@@ -15,15 +15,15 @@
 
           <div v-for="task in getTasksByLane(lane)" :key="task.id" draggable="true" :id="'task-'+task.id"
             @dragstart="dragstart($event, task)" @dragend="dragend($event, task)" @dragover="dragoverTask($event, task, lane)"
-            class="card m-2 rounded-0" :class="{ selected: activeTask === task }"
+            class="card m-2 rounded-0" :class="{ selected: taskActive === task }"
           >
             <div class="card-body pb-0">
               <p class="card-text">{{ task.title }}</p>
 
               <div class="card-options float-right">
-                <i class="fas fa-edit"></i>
+                <i class="fas fa-edit" @click="setTaskActive(task)" data-toggle="modal" data-target="#editTitleModal"></i>
                 <i class="fas fa-trash" @click="deleteTask(task)"></i>
-                <i class="fas fa-exchange-alt"></i>
+                <i class="fas fa-exchange-alt" @click="setTaskActive(task)" data-toggle="modal" data-target="#changeLaneModal"></i>
               </div>
             </div>
           </div>
@@ -37,12 +37,15 @@
       </div>
     </div>
 
+    <ChangeLaneModal />
+    <EditTitleModal />
+
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import TheHeader from './shared/TheHeader'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import TheHeader from '../shared/TheHeader'
 import ChangeLaneModal from './modals/ChangeLaneModal'
 import EditTitleModal from './modals/EditTitleModal'
 
@@ -50,37 +53,25 @@ export default {
   created () {
     this.loadBoard()
   },
-  data () {
-    return {
-      activeTask: null,
-      lanes: [] // cached version for temporary modifications without affecting global state
-    }
-  },
   computed: {
     ...mapGetters('board', [
-      'getTaskById',
-      'getTasksByLane'
-    ]),
-    ...mapGetters('board', {
-      innerLanes: 'lanes'
-    })
-  },
-  watch: {
-    innerLanes (val) {
-      this.lanes = JSON.parse(JSON.stringify(val)) // deep clone
-    }
+      'taskActive',
+      'getTasksByLane',
+      'lanes',
+      'getLaneByTask'
+    ])
   },
   methods: {
     dragstart (event, task) {
       event.dataTransfer.setData('text/plain', '')
-      this.activeTask = task
+      this.setTaskActive(task)
     },
     dragend (event, task) {
-      this.saveLane(this.lanes.find(lane => lane.id === this.activeTask.lane_id))
-      this.activeTask = null
+      this.saveLane(this.getLaneByTask(this.taskActive))
+      this.clearTaskActive()
     },
     dragoverTask (event, task, lane) {
-      if (this.activeTask.id === task.id) {
+      if (task === this.taskActive) {
         return
       }
 
@@ -91,9 +82,12 @@ export default {
       }
       let offset = (event.layerY / target.clientHeight) > 0.5 ? 1 : 0
 
-      // move task
-      this.removeTask(this.activeTask)
-      this.insertTaskRel(lane, this.activeTask, task, offset)
+      const index = this.getLaneByTask(task).tasks.indexOf(task) + offset
+      this.moveTask({
+        task: this.taskActive,
+        lane: lane,
+        index: index
+      })
     },
     dragoverLane (event, lane) {
       // only if dragging over an empty part of the lane
@@ -101,32 +95,23 @@ export default {
         return
       }
 
-      // move task
-      this.removeTask(this.activeTask)
-      this.insertTaskAbs(lane, this.activeTask)
-    },
-
-    removeTask (task) {
-      // let lane = this.lanes.find(lane => lane.id === task.lane_id)
-      // let index = lane.tasks.indexOf(task.id)
-      // lane.tasks.splice(index, 1)
-    },
-    insertTaskAbs (lane, task) {
-      // lane.tasks.push(task.id)
-      // task.lane_id = lane.id
-    },
-    insertTaskRel (lane, task, ref, offset) {
-      // let index = lane.tasks.indexOf(ref.id) + offset
-      // lane.tasks.splice(index, 0, task.id)
-      // task.lane_id = lane.id
+      this.moveTask({
+        task: this.taskActive,
+        lane: lane,
+        index: 999
+      })
     },
 
     ...mapActions('board', [
       'loadBoard',
+      'saveLane',
+      'moveTask',
       'createTask',
-      'deleteTask',
-      'moveTaskBefore',
-      'saveLane'
+      'deleteTask'
+    ]),
+    ...mapMutations('board', [
+      'setTaskActive',
+      'clearTaskActive'
     ])
   },
   components: {
