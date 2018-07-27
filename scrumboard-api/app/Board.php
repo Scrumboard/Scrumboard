@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model
 {
-    protected $appends = ['lanes', 'tasks'];
+    protected $appends = ['lanes'];
 
     public function lanes()
     {
@@ -21,10 +21,5 @@ class Board extends Model
     public function getLanesAttribute()
     {
         return $this->lanes()->get();
-    }
-
-    public function getTasksAttribute()
-    {
-        return $this->tasks()->get();
     }
 }

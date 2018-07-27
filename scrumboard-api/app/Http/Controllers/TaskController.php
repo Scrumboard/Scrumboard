@@ -2,17 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Board;
+use App\Lane;
 use App\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    function create (Request $request)
+    function create (Board $board, Lane $lane, Request $request)
     {
-        $task = new Task($request->all());
+        $task = new Task;
+        $task->title = $request->title;
+        $task->lane_id = $lane->id;
+        $task->lane_order = 999;
         $task->save();
         
-        return $task;
+        return [ 'task' => $task, 'lanes' => $board->lanes ];
+    }
+
+    function delete (Board $board, Lane $lane, Task $task)
+    {
+        $task->delete();
+        
+        return $board->lanes;
     }
 
     function update (Task $task, Request $request)
@@ -21,21 +33,5 @@ class TaskController extends Controller
         $task->save();
         
         return $task;
-    }
-    
-    function updateMultiple (Request $request)
-    {
-        foreach ($request->tasks as $update)
-        {
-            $task = Task::find($update['id']);
-            $task->lane_id = $update['lane_id'];
-            $task->lane_order = $update['lane_order'];
-            $task->save();
-        }
-    }
-
-    function delete (Task $task)
-    {
-        $task->delete();
     }
 }

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Register from '@/components/auth/Register'
 import Login from '@/components/auth/Login'
 import Logout from '@/components/auth/Logout'
-import Board from '@/components/Board'
+import Board from '@/components/board/Board'
 import Landing from '@/components/Landing'
 import Overview from '@/components/Overview'
 
@@ -28,8 +28,8 @@ export default new Router({
       component: Logout
     },
     {
-      path: '/test',
-      name: 'test',
+      path: '/board/:id',
+      name: 'board',
       component: Board
     },
     {
