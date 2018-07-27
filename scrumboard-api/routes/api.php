@@ -37,3 +37,7 @@ Route::group(['prefix' => 'tasks'], function () {
 Route::group(['prefix' => 'board'], function () {
     Route::get('{board}', 'BoardController@find');
 });
+
+Route::group(['prefix' => 'overview'], function () {
+    Route::get('', 'BoardController@getAll');
+});

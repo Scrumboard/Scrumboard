@@ -5,7 +5,7 @@
       <h1 class="card-title"> {{teamName}} </h1>
     </div>
     <div class="list-group list-group-flush">
-      <a href="#" class="list-group-item existing_board"><i class="fas fa-fw fa-arrow-right"></i> IIPSEN5 </a>
+      <a href="#" v-for="board in boards" :key="board.id" class="list-group-item existing_board"><i class="fas fa-fw fa-arrow-right"></i> {{ board.id }} </a>
 
       <a href="#" class="list-group-item add_board"><i class="fas fa-fw fa-plus"></i> New Board</a>
     </div>
@@ -14,11 +14,25 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'Team',
   data () {
     return {}
+  },  
+  created () {
+    this.loadBoards()
+  },
+  computed: {
+    ...mapGetters('overview', [
+      'boards'
+    ])
+  },
+  methods: {
+    ...mapActions('overview', [
+      'loadBoards'
+    ]),
   },
   props: {
     teamName: String

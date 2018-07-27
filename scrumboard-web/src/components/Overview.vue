@@ -16,11 +16,26 @@
 import TheHeader from './shared/TheHeader'
 import Team from './Team'
 
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+
 export default {
   name: 'Overview',
   components: {
     menubar: TheHeader,
     team: Team
+  },
+  created () {
+    this.loadBoards()
+  },
+  computed: {
+    ...mapState('overview', [
+      'boards'
+    ])
+  },
+  methods: {
+    ...mapActions('overview', [
+      'loadBoards'
+    ]),
   },
   data () {
     return {}

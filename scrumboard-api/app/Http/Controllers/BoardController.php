@@ -11,4 +11,9 @@ class BoardController extends Controller
     {
         return $board;
     }
+
+    public function getAll()
+    {
+        return Board::all();
+    }
 }
