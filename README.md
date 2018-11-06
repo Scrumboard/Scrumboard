@@ -58,3 +58,22 @@ Shutdown (with removal of all data):
 docker$ docker-compose down --volumes
 ```
 
+### Database management:
+
+Access database:
+
+```
+docker container exec -it docker_data_1 mysql -u scrumboard -ppassword123
+mysql> use scrumboard;
+```
+
+Create an example board:
+
+```
+mysql> insert into boards(id) values(1);
+mysql> insert into lanes(title, board_id) values ('first', 1);
+mysql> insert into lanes(title, board_id) values ('second', 1);
+mysql> insert into lanes(title, board_id) values ('third', 1);
+mysql> insert into lanes(title, board_id) values ('fourth', 1);
+```
+

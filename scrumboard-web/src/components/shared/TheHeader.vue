@@ -25,6 +25,9 @@
           <router-link :to="{ name: 'board', params: { id: 1 } }" class="nav-link">Board</router-link>
         </li>
         <li v-if="user" class="nav-item px-3">
+          <router-link :to="{ name: 'settings' }" class="nav-link">Settings</router-link>
+        </li>
+        <li v-if="user" class="nav-item px-3">
           <router-link :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
         </li>
       </ul>
