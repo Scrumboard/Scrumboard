@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Team',
   data () {
     return {}
-  },  
+  },
   created () {
     this.loadBoards()
   },
@@ -32,7 +32,7 @@ export default {
   methods: {
     ...mapActions('overview', [
       'loadBoards'
-    ]),
+    ])
   },
   props: {
     teamName: String

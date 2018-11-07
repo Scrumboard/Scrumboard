@@ -33,7 +33,7 @@
 
             <button class="btn btn-primary float-right" type="submit">Submit</button>
           </form>
-  
+
         </div>
       </div>
       <div class="card">
@@ -63,7 +63,7 @@
 
             <button class="btn btn-primary float-right" type="submit">Submit</button>
           </form>
-  
+
         </div>
       </div>
 

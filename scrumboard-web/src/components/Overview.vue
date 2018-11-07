@@ -16,7 +16,7 @@
 import TheHeader from './shared/TheHeader'
 import Team from './Team'
 
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Overview',
@@ -35,7 +35,7 @@ export default {
   methods: {
     ...mapActions('overview', [
       'loadBoards'
-    ]),
+    ])
   },
   data () {
     return {}
