@@ -25,15 +25,15 @@ const getters = {
 
 const actions = {
   loadBoard ({ commit }) {
-    axios.get(`/api/board/1`).then(board => {
+    axios.get(`/api/boards/1`).then(board => {
       commit('setBoard', board)
     })
   },
   saveLane ({ commit }, lane) {
-    axios.put(`/api/lane/${lane.id}`, lane)
+    axios.put(`/api/lanes/${lane.id}`, lane)
   },
   saveTask ({ commit }, task) {
-    axios.put(`/api/task/${task.id}`, task)
+    axios.put(`/api/tasks/${task.id}`, task)
   },
   moveTask ({ commit, getters }, { task, lane, index }) {
     commit('removeTask', {
@@ -47,9 +47,12 @@ const actions = {
     })
   },
   createTask ({ commit }, lane) {
-    axios.post(`/api/lane/${lane.id}/task`, {
-      title: 'new title y'
-    }).then(task => {
+    const task = {
+      title: 'new title y',
+      lane_id: lane.id,
+      lane_order: lane.tasks.length
+    }
+    axios.post(`/api/tasks`, task).then(() => {
       commit('insertTask', {
         task,
         lane,
@@ -58,7 +61,7 @@ const actions = {
     })
   },
   deleteTask ({ commit, getters }, task) {
-    axios.delete(`/api/task/${task.id}`).then(() => {
+    axios.delete(`/api/tasks/${task.id}`).then(() => {
       commit('removeTask', {
         task: task,
         lane: getters.getLaneByTask(task)

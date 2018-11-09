@@ -7,13 +7,33 @@ use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {
-    function find (Board $board)
+    public function __construct()
+    {
+        // $this->middleware('auth:api');
+    }
+
+    public function index()
+    {
+        return Board::all();
+    }
+    
+    public function store(Request $request)
+    {
+        //
+    }
+    
+    public function show(Board $board)
     {
         return $board;
     }
-
-    public function getAll()
+    
+    public function update(Request $request, $id)
     {
-        return Board::all();
+        //
+    }
+    
+    public function destroy($id)
+    {
+        //
     }
 }

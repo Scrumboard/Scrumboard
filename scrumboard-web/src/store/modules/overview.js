@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
   loadBoards ({commit, state}) {
-    axios.get(`/api/overview`).then(boards => {
+    axios.get(`/api/boards`).then(boards => {
       commit('setBoards', boards)
     })
   }

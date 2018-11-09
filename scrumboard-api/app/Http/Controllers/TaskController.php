@@ -2,36 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Board;
-use App\Lane;
 use App\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    function create (Board $board, Lane $lane, Request $request)
+    public function __construct()
     {
-        $task = new Task;
-        $task->title = $request->title;
-        $task->lane_id = $lane->id;
-        $task->lane_order = 999;
-        $task->save();
-        
-        return [ 'task' => $task, 'lanes' => $board->lanes ];
+        // $this->middleware('auth:api');
     }
 
-    function delete (Board $board, Lane $lane, Task $task)
+    public function index()
+    {
+        //
+    }
+    
+    public function store(Request $request)
+    {
+        $task = new Task($request->all());
+        $task->save();
+    }
+    
+    public function show(Task $task)
+    {
+        //
+    }
+    
+    public function update(Request $request, Task $task)
+    {
+        $task->title = $request->title;
+        $task->save();
+    }
+    
+    public function destroy(Task $task)
     {
         $task->delete();
-        
-        return $board->lanes;
-    }
-
-    function update (Task $task, Request $request)
-    {
-        $task->title = $request->title;
-        $task->save();
-        
-        return $task;
     }
 }
