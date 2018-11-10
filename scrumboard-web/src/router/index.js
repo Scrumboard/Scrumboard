@@ -8,9 +8,11 @@ import Board from '@/components/board/Board'
 import Landing from '@/components/Landing'
 import Overview from '@/components/Overview'
 
+import store from '@/store/index'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -40,7 +42,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Landing',
+      name: 'landing',
       component: Landing
     },
     {
@@ -50,3 +52,21 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (store.getters['auth/loggedin']) {
+    if (['login', 'register'].indexOf(to.name) === -1) {
+      next()
+    } else {
+      next({ name: 'overview' })
+    }
+  } else {
+    if (['landing', 'login', 'register'].indexOf(to.name) === -1) {
+      next({ name: 'login' })
+    } else {
+      next()
+    }
+  }
+})
+
+export default router

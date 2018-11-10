@@ -7,6 +7,9 @@ const state = {
 }
 
 const getters = {
+  loggedin: (state) => {
+    return !!state.auth
+  }
 }
 
 const actions = {
