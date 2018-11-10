@@ -10,7 +10,7 @@
             <div class="card-body">
               <h5 class="card-title text-center">Register</h5>
 
-              <div class="alert alert-success" v-if="user">
+              <div class="alert alert-success" v-if="auth && user">
                 Welcome, {{ user.email }}!
               </div>
               <div class="alert alert-danger" v-else-if="error">
@@ -83,14 +83,36 @@ export default {
       }
     }
   },
-  computed: mapState('auth', [
-    'user',
-    'error'
-  ]),
-  methods: mapActions('auth', [
-    'register',
-    'hideError'
-  ]),
+  computed: {
+    ...mapState('auth', [
+      'auth',
+      'error'
+    ]),
+    ...mapState('user', [
+      'user'
+    ])
+  },
+  methods: {
+    ...mapActions('auth', [
+      'register',
+      'hideError'
+    ]),
+    ...mapActions('user', [
+      'loadUser'
+    ])
+  },
+  watch: {
+    auth: function (newAuth) {
+      if (newAuth) {
+        this.loadUser()
+      }
+    },
+    user: function (newUser) {
+      if (newUser) {
+        this.$router.push('/overview')
+      }
+    }
+  },
   components: {
     TheHeader
   }

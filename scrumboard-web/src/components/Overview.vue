@@ -1,28 +1,42 @@
 <template>
 
-  <!-- Default div to put all the info in. -->
-  <div class="body">
-    <!-- The menu bar -->
-    <menubar></menubar>
-    <div class="teams d-flex justify-content-center flex-wrap">
-      <team :teamName="'Default'" class=""></team>
-      <team :teamName="'School'"></team>
+  <div>
+    <TheHeader />
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">My Boards</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <router-link
+                v-for="board in boards" :key="board.id"
+                :to="{ name: 'board', params: { id: 1 } }"
+                tag="li" class="list-group-item">
+                <i class="fas fa-fw fa-arrow-right"></i> Board #{{ board.id }}
+              </router-link>
+            </ul>
+          </div>
+
+        </div>
+      </div>
     </div>
 
-  </div> <!-- End default div -->
+  </div>
 </template>
 
 <script>
 import TheHeader from './shared/TheHeader'
-import Team from './Team'
 
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Overview',
   components: {
-    menubar: TheHeader,
-    team: Team
+    TheHeader
   },
   created () {
     this.loadBoards()
@@ -43,8 +57,8 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import "./src/assets/colors.scss";
-
+.list-group-item {
+  cursor: pointer;
+}
 </style>

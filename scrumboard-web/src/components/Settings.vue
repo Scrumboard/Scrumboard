@@ -14,7 +14,7 @@
             <div class="form-group row">
               <label for="email" class="col-sm-4 col-xl-3 col-form-label">Email</label>
               <div class="col-sm-8 col-xl-9">
-                <input type="text" readonly class="form-control" id="email" v-model="form.email" disabled>
+                <input type="text" readonly class="form-control" id="email" v-model="user.email" disabled>
               </div>
             </div>
             <div class="form-group row">
@@ -73,18 +73,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import TheHeader from '@/components/shared/TheHeader'
 
 export default {
   data () {
     return {
       form: {
-        email: 'helloworld@example.com',
         firstname: 'hello',
         lastname: 'world'
       }
     }
   },
+  computed: mapState('user', [
+    'user'
+  ]),
   components: {
     TheHeader
   }

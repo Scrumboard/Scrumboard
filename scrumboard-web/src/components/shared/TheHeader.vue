@@ -39,9 +39,9 @@
 import { mapState } from 'vuex'
 
 export default {
-  computed: mapState('auth', {
-    user: state => state.user
-  })
+  computed: mapState('user', [
+    'user'
+  ])
 }
 </script>
 

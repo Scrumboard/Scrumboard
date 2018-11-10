@@ -3,15 +3,16 @@
 
     <TheHeader/>
 
-    <div class="container bg-dark">
-      <div class="row flex-nowrap">
+    <div class="container">
+      
+      <div class="row flex-nowrap mt-3">
 
         <div v-for="lane in lanes" :key="lane.id" :id="'lane-'+lane.id"
           @drop.prevent @dragover.prevent="dragoverLane($event, lane)"
-          class="col-6 col-md-4 col-lg-3 border border-success"
+          class="col-6 col-md-4 col-lg-3 border bg-dark lane"
         >
 
-          <h3 class="text-center text-success">{{ lane.title }}</h3>
+          <h3 class="text-center my-1">{{ lane.title }}</h3>
 
           <div v-for="task in getTasksByLane(lane)" :key="task.id" draggable="true" :id="'task-'+task.id"
             @dragstart="dragstart($event, task)" @dragend="dragend($event, task)" @dragover="dragoverTask($event, task, lane)"
@@ -139,5 +140,12 @@ export default {
   }
   .selected > * {
     background-color: rgba(187, 187, 187, 0.5)
+  }
+  .lane {
+    border-radius: .25rem;
+    border-color: #84ceeb;
+  }
+  h3 {
+    color: #84ceeb;
   }
 </style>

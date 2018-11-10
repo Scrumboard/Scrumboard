@@ -24,10 +24,7 @@ class AuthController extends Controller
         $user = new User($details);
         $user->save();
         
-        return [
-            'auth' => $user->generateToken(),
-            'user' => $user
-        ];
+        return $user->generateToken();
     }
 
     public function login(Request $request)
@@ -43,15 +40,13 @@ class AuthController extends Controller
 
         $user = $request->user();
 
-        return [
-            'auth' => $user->generateToken(),
-            'user' => $user
-        ];
+        return $user->generateToken();
     }
 
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
+        $user = $request->user();
+        $user->token()->revoke();
     }
 
     public function user(Request $request)
